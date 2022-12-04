@@ -1,25 +1,19 @@
 
-f = open("input.txt")
-all_lines = f.readlines()
-
-def get_tasks(dat):
-    parts2 = dat.split("-")
-    return [*range(int(parts2[0]), int(parts2[1]) + 1)]
-
-def contains(a, b):
-    for element in a:
-        if element not in b:
-            return False
-    return True
+def contains(a1, a2, b1, b2):
+    return ((a1 >= b1) and (a2 <= b2)) or ((a1 <= b1) and (a2 >= b2))
 
 total = 0
+ll = [x for x in open("input.txt").read().strip().split('\n')]
 
-for raw in all_lines:
-    line = raw.strip()
-    parts = line.split(",")
-    p1 = get_tasks(parts[0])
-    p2 = get_tasks(parts[1])
-    if contains(p1, p2) or contains(p2, p1):
+for l in ll:
+    t1, t2 = l .split(",")
+    a1, a2 = t1.split("-")
+    b1, b2 = t2.split("-")
+    a1 = int(a1)
+    a2 = int(a2)
+    b1 = int(b1)
+    b2 = int(b2)
+    if contains(a1, a2, b1, b2):
         total += 1
 
 print(total)
