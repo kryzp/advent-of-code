@@ -1,3 +1,4 @@
+import itertools as it
 
 ll = [x for x in open("input.txt").read().split('\n')]
 start_of = -1
@@ -14,26 +15,23 @@ for i in range(count):
     stacks.append([])
 
 for n in range(start_of):
-    l2 = ll[n]
-    for k in range(count):
-        str_index = k * 4
-        if len(l2) >= str_index:
-            l2t = l2[str_index + 1]
-            if l2t != " ":
-                stacks[k].insert(0, l2t)
+    curr_line = ll[n]
+    for curr_stack, idx in zip(it.count(0), map(lambda x: 4*x + 1, range(count))):
+        box = curr_line[idx]
+        if box != " ":
+            stacks[curr_stack].insert(0, box)
 
-for m in range(len(ll)-start_of-1):
-    l = ll[m+start_of+1].strip()
-    if l != "":
-        split = l.split(" ")
-        amount_to_move = int(split[1])
-        from_stack = int(split[3])
-        to_stack = int(split[5])
-        for i in range(amount_to_move):
-            item = stacks[from_stack-1].pop()
-            stacks[to_stack-1].append(item)
+def parse_line(line):
+    a, b, c, d, e, f = line.split(" ")
+    return int(b), int(d)-1, int(f)-1
+
+for m in range(len(ll)-start_of-3):
+    amount_to_move, from_stack, to_stack = parse_line(ll[m+start_of+2].strip())
+    for i in range(amount_to_move):
+        item = stacks[from_stack].pop()
+        stacks[to_stack].append(item)
 
 for n in range(len(stacks)):
-    print(stacks[n][-1],end='')
+    print(stacks[n][-1], end='')
 
 print()
