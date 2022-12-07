@@ -13,12 +13,10 @@ def calc_dir_size() -> int:
 	total_size = 0
 	while current_line < len(ll):
 		l = ll[current_line]
-		if l.startswith("$ cd .."):
+		if l.startswith("dir") or l.startswith("$ ls") or l.startswith("$ cd ..") or l.startswith("$ cd /"):
 			current_line += 1
-			return total_size
-		elif l.startswith("$ cd /"):
-			current_line += 1
-			continue
+			if l.startswith("$ cd .."):
+				return total_size
 		elif l.startswith("$ cd ") :
 			current_line += 1
 			size = calc_dir_size()
@@ -27,13 +25,9 @@ def calc_dir_size() -> int:
 			total_size += size
 			if size <= 100000:
 				counter += size
-			continue
-		elif l.startswith("dir") or l.startswith("$ ls"):
-			current_line += 1
-			continue
 		else:
-			size = int(l.split(" ")[0])
-			total_size += size
+			local_size = int(l.split(" ")[0])
+			total_size += local_size
 			current_line += 1
 	return total_size
 
