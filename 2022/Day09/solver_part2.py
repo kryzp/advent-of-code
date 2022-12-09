@@ -16,15 +16,12 @@ def update_tail_rcsv(last_pos, idx):
     global rope
     if idx >= 10:
         return
-    
     curr_pos = rope[idx]
     dx = last_pos[0] - curr_pos[0]
     dy = last_pos[1] - curr_pos[1]
-
     if abs(dx) > 1 or abs(dy) > 1:
         curr_pos[0] += sign(dx)
         curr_pos[1] += sign(dy)
- 
     update_tail_rcsv(curr_pos, idx+1)
 
 def move_head_by_one(dir):
@@ -46,10 +43,4 @@ for l in ll:
         update_tail_rcsv(rope[0], 1)
         positions.append([rope[-1][0], rope[-1][1]])
 
-unique_positions = []
-
-for pos in positions:
-    if not (pos in unique_positions):
-        unique_positions.append(pos)
-
-print("unique positions = " + str(len(unique_positions)))
+print("unique positions = " + str(len(set([tuple(p) for p in positions]))))

@@ -7,6 +7,13 @@ tail_position = [0, 0]
 last_head_position = [0, 0]
 positions = []
 
+def sign(n):
+    if n > 0:
+        return 1
+    elif n < 0:
+        return -1
+    return 0
+
 def update_tail():
     global head_position
     global tail_position
@@ -14,12 +21,8 @@ def update_tail():
     dx = head_position[0] - tail_position[0]
     dy = head_position[1] - tail_position[1]
     if abs(dx) > 1 or abs(dy) > 1:
-        tail_position[0] = last_head_position[0]
-        tail_position[1] = last_head_position[1]
-    elif abs(dx) > 1:
-        tail_position[0] = last_head_position[0]
-    elif abs(dy) > 1:
-        tail_position[1] = last_head_position[1]
+        tail_position[0] += sign(dx)
+        tail_position[1] += sign(dy)
 
 def move_head_by_one(dir):
     global head_position
@@ -44,10 +47,4 @@ for l in ll:
         last_head_position[0] = head_position[0]
         last_head_position[1] = head_position[1]
 
-unique_positions = []
-
-for pos in positions:
-    if not (pos in unique_positions):
-        unique_positions.append(pos)
-
-print("unique positions = " + str(len(unique_positions)))
+print("unique positions = " + str(len(set([tuple(p) for p in positions]))))
