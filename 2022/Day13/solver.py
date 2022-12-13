@@ -14,7 +14,7 @@ class TreeNode:
 		result.nodes = []
 		return result
 
-	def length(self):
+	def size(self):
 		return len(self.nodes)
 
 	def is_leaf(self) -> bool:
@@ -35,14 +35,14 @@ def compare_trees(tree1: TreeNode, tree2: TreeNode) -> int:
 		else:
 			return 0
 	elif not tree1.is_leaf() and not tree2.is_leaf():
-		minimum = min(tree1.length(), tree2.length())
+		minimum = min(tree1.size(), tree2.size())
 		for i in range(minimum):
 			result = compare_trees(tree1.get(i), tree2.get(i))
 			if result != 0:
 				return result
-		if tree1.length() > tree2.length():
+		if tree1.size() > tree2.size():
 			return 1
-		elif tree1.length() < tree2.length():
+		elif tree1.size() < tree2.size():
 			return -1
 		else:
 			return 0
