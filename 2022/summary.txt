@@ -1,0 +1,9 @@
+I thought it would be perhaps fun to do a little summary of the things I've learned on my first Advent of Code ever :)
+Well, really, A LOT:
+ - A* algorithm
+ - Minimal-Distance between point algorithms
+ - Actually became far more proficient with python. I always could *code* in python but now I think I have a much better understanding of the quirks of python and how to effectively make use of it.
+ - I had fun :))))
+ - Proved that I *can* wake up early (5AM here in England), I just choose not to lol
+ - Overall learned how to code under time constraints
+
