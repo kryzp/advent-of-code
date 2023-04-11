@@ -3,7 +3,6 @@ from collections import defaultdict
 ll = [x for x in open("input.txt").read().strip().split("\n")]
 
 valves = set()
-viable_valves = set()
 tunnels = set()
 flow_rates = {}
 
@@ -52,10 +51,9 @@ def calc_flow(valves):
 
 connections = floyd_warsh_algorithm()
 
-def max_score(curr, t, total, open_valves):
+def max_score(curr, t, total, open_valves, viable_valves):
 	global finish_timer
 	global connections
-	global viable_valves
 	maximum = total + (calc_flow(open_valves) * (MAX_TIME - t))
 	for new in viable_valves:
 		if new in open_valves:
@@ -64,11 +62,11 @@ def max_score(curr, t, total, open_valves):
 		if t + dt >= MAX_TIME:
 			continue
 		new_total = total + (dt * calc_flow(open_valves))
-		open_valves.append(new)
-		val = max_score(new, t + dt, new_total, open_valves)
+		open_valves.add(new)
+		val = max_score(new, t + dt, new_total, open_valves, viable_valves)
 		maximum = max(maximum, val)
 		open_valves.remove(new)
 	return maximum
 
-viable_valves = [v for v in valves if flow_rates[v] != 0]
-print(max_score("AA", 0, 0, []))
+viable_valves = set(v for v in valves if flow_rates[v] != 0)
+print(max_score("AA", 0, 0, set(), viable_valves))

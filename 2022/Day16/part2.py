@@ -3,11 +3,10 @@ from collections import defaultdict
 ll = [x for x in open("input.txt").read().strip().split("\n")]
 
 valves = set()
-viable_valves = set()
 tunnels = set()
 flow_rates = {}
 
-MAX_TIME = 30
+MAX_TIME = 26
 
 def floyd_warsh_algorithm():
 	global valves
@@ -52,11 +51,17 @@ def calc_flow(valves):
 
 connections = floyd_warsh_algorithm()
 
-def max_score(curr, t, total, open_valves):
+def max_score(curr, t, total, open_valves, viable_valves, using_elephant):
 	global finish_timer
 	global connections
-	global viable_valves
 	maximum = total + (calc_flow(open_valves) * (MAX_TIME - t))
+	if not using_elephant:
+		new_cand = set(viable_valves)
+		for v in open_valves:
+			if v in new_cand:
+				new_cand.remove(v)
+		new_open = set()
+		maximum += max_score("AA", 0, 0, new_open, new_cand, True)
 	for new in viable_valves:
 		if new in open_valves:
 			continue
@@ -64,11 +69,11 @@ def max_score(curr, t, total, open_valves):
 		if t + dt >= MAX_TIME:
 			continue
 		new_total = total + (dt * calc_flow(open_valves))
-		open_valves.append(new)
-		val = max_score(new, t + dt, new_total, open_valves)
+		open_valves.add(new)
+		val = max_score(new, t + dt, new_total, open_valves, viable_valves, using_elephant)
 		maximum = max(maximum, val)
 		open_valves.remove(new)
 	return maximum
 
-viable_valves = [v for v in valves if flow_rates[v] != 0]
-print(max_score("AA", 0, 0, []))
+viable_valves = set(v for v in valves if flow_rates[v] != 0)
+print(max_score("AA", 0, 0, set(), viable_valves, False))
